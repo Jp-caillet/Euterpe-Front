@@ -6,6 +6,8 @@ import News from './components/news'
 import Details from './components/details'
 import Header from './components/header'
 import Footer from './components/footer'
+import Upload from './components/upload_song'
+import Register from './components/register'
 
 class Routes extends Component {
   render() {
@@ -16,7 +18,9 @@ class Routes extends Component {
             <Header />
             <Switch>
               <Route path="/" component={News} exact />
+              <Route path="/register" component={Register} exact />
               <Route path="/search" component={Search} exact />
+              <Route path="/upload" component={Upload} exact />
               <Route path="/details/:id" component={Details} exact />
             </Switch>
             <Footer />
