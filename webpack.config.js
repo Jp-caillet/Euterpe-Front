@@ -24,7 +24,7 @@ module.exports = {
             {loader :'babel-loader'},
             {loader :'eslint-loader',
               options: {
-                failOnError: true,
+                failOnError: false,
               }
             }
           ]
