@@ -1,26 +1,44 @@
 import axios from 'axios'
 
-import actionsType from './actions-type'
-import store from '../../../store'
+const SET_LOGIN_PENDING = 'SET_LOGIN_PENDING'
+const SET_LOGIN_SUCCESS = 'SET_LOGIN_SUCCESS'
+const SET_LOGIN_ERROR = 'SET_LOGIN_ERROR'
 
+function setLoginPending(isLoginPending) {
+  return {
+    type: SET_LOGIN_PENDING,
+    isLoginPending
+  }
+}
 
-export const login = (email,password) => {
-  return dispatch => {
-        dispatch(request({ email }))
-        axios.post('http://localhost:4000/user/create', {
-        "email": email,
-        "psw": password
+function setLoginSuccess(isLoginSuccess) {
+  return {
+    type: SET_LOGIN_SUCCESS,
+    isLoginSuccess
+  }
+}
+
+function setLoginError(loginError) {
+  return {
+    type: SET_LOGIN_ERROR,
+    loginError
+  }
+}
+
+export function login(email, password) {
+  console.log('pwd')
+  console.log(password)
+  return (dispatch) => {
+    dispatch(setLoginPending(true))
+    axios.post('http://localhost:4000/user/login', email)
+      .then((resp) => {
+        console.log(resp)
+        dispatch(setLoginPending(false))
+        dispatch(setLoginSuccess(true))
+      }).catch((error) => {
+        console.log(error)
+        dispatch(setLoginPending(false))
+        dispatch(setLoginError(error))
       })
-        .then((resp) => {
-          dispatch(success(resp));
-          history.push('/');
-        }).catch((error) => {
-          dispatch(failure(error))
-          dispatch(alertActions.error(error))
-        })
-    }
-
-    function request(user) { return { type: actionsType.LOGIN_REQUEST, user } }
-    function success(user) { return { type: actionsType.LOGIN_SUCCESS, user } }
-    function failure(error) { return { type: actionsType.LOGIN_FAILURE, error } }
+  }
 }
