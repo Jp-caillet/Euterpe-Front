@@ -20,7 +20,7 @@ class Login extends Component {
 
   handleSubmit(event) {
     event.preventDefault()
-    const { email, mdp, auth } = this.state
+    const { email, mdp } = this.state
     const { login } = this.props
     login({ email, mdp })
   }
