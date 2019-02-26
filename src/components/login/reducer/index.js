@@ -1,23 +1,32 @@
-import * as constants from '../actions/actions-type.js'
-// import { LOGIN_SUCCESS, LOGIN_ERROR } from "../actions/index";
-export const initialState = {
-  isLoggedIn: false,
-  error: 'none'
-}
+import { fromJS } from 'immutable'
+import actionsType from '../actions/actions-type'
+import initialState from './initial-state'
 
-export const myAppReducer = (state = initialState, action) => {
-  console.log(`THE ACTION ${action.type} DISPATCHED!`)
-  console.log(`WITH THE PAYLOAD OF ${action.type}`)
+
+const isLogged = (state, action) => (
+  fromJS(state)
+    .setIn(['loggedIn'], action.isLoginSuccess)
+    .setIn(['token'], action.token)
+    .toJS()
+) 
+const isNotLogged = (state, action) => (
+	fromJS(state)
+    .setIn(['loggedIn'], false)
+    .setIn(['token'], '')
+    .toJS()
+) 
+
+const auth = (state = initialState, action) => {
   switch (action.type) {
-    case constants.LOGIN_SUCCESS:
-      return Object.assign({}, state, {
-        isLoggedIn: action.isLoggedIn
-      })
-    case constants.LOGIN_ERROR:
-      return Object.assign({}, state, {
-        error: action.error
-      })
+    case actionsType.SET_LOGIN_SUCCESS:
+      console.log("action")
+      console.log(action)
+      return isLogged(state, action)
+    case  actionsType.SET_LOGIN_ERROR:
+      return isNotLogged(state, action)
     default:
       return state
   }
 }
+
+export default auth

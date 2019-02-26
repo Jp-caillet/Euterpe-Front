@@ -11,10 +11,11 @@ class News extends Component {
   }
 
   render() {
-    const { news } = this.props
+    const { news, auth: { token } } = this.props
 
     return (
       <div>
+       <p className="nav-link posts">{`${token}`}</p>
         <Results data={news.data} />
       </div>
     )

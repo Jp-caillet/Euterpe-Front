@@ -20,7 +20,7 @@ class Login extends Component {
 
   handleSubmit(event) {
     event.preventDefault()
-    const { email, mdp } = this.state
+    const { email, mdp, auth } = this.state
     const { login } = this.props
     login({ email, mdp })
   }
@@ -30,7 +30,8 @@ class Login extends Component {
       email,
       mdp
     } = this.state
-
+     
+    const { auth: { loggedIn } } = this.props
     return (
       <div className="Register">
         <header>
@@ -86,6 +87,7 @@ class Login extends Component {
                   </div>
                 </div>
               </form>
+               <p className="nav-link posts">{`${loggedIn}`}</p>
             </div>
           </div>
         </div>
@@ -94,4 +96,10 @@ class Login extends Component {
   }
 }
 
-export default connect(null, actions)(Login)
+function mapStateToProps(state) {
+  return {
+    auth: state.auth
+  }
+}
+
+export default connect(mapStateToProps, actions)(Login)

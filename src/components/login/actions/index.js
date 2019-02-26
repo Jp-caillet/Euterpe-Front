@@ -1,26 +1,24 @@
 import axios from 'axios'
-
-const SET_LOGIN_PENDING = 'SET_LOGIN_PENDING'
-const SET_LOGIN_SUCCESS = 'SET_LOGIN_SUCCESS'
-const SET_LOGIN_ERROR = 'SET_LOGIN_ERROR'
+import actionsType from './actions-type'
 
 function setLoginPending(isLoginPending) {
   return {
-    type: SET_LOGIN_PENDING,
+    type: actionsType.SET_LOGIN_PENDING,
     isLoginPending
   }
 }
 
-function setLoginSuccess(isLoginSuccess) {
+function setLoginSuccess(isLoginSuccess, token) {
   return {
-    type: SET_LOGIN_SUCCESS,
-    isLoginSuccess
+    type: actionsType.SET_LOGIN_SUCCESS,
+    isLoginSuccess,
+    token: token
   }
 }
 
 function setLoginError(loginError) {
   return {
-    type: SET_LOGIN_ERROR,
+    type: actionsType.SET_LOGIN_ERROR,
     loginError
   }
 }
@@ -34,7 +32,7 @@ export function login(email, password) {
       .then((resp) => {
         console.log(resp)
         dispatch(setLoginPending(false))
-        dispatch(setLoginSuccess(true))
+        dispatch(setLoginSuccess(true, resp.data.token))
       }).catch((error) => {
         console.log(error)
         dispatch(setLoginPending(false))
