@@ -30,7 +30,7 @@ class Login extends Component {
       email,
       mdp
     } = this.state
-     
+
     const { auth: { loggedIn } } = this.props
     return (
       <div className="Register">
@@ -87,7 +87,7 @@ class Login extends Component {
                   </div>
                 </div>
               </form>
-               <p className="nav-link posts">{`${loggedIn}`}</p>
+              <p className="nav-link posts">{`${loggedIn}`}</p>
             </div>
           </div>
         </div>

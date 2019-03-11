@@ -12,7 +12,7 @@ function setLoginSuccess(isLoginSuccess, token) {
   return {
     type: actionsType.SET_LOGIN_SUCCESS,
     isLoginSuccess,
-    token: token
+    token
   }
 }
 

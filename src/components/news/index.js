@@ -15,7 +15,7 @@ class News extends Component {
 
     return (
       <div>
-       <p className="nav-link posts">{`${token}`}</p>
+        <p className="nav-link posts">{`${token}`}</p>
         <Results data={news.data} />
       </div>
     )
