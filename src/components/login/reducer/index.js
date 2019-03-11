@@ -20,6 +20,12 @@ const alreadyLogged = state => (
     .setIn(['token'], localStorage.getItem('Etherpe-token'))
     .toJS()
 )
+const isDeconnected = (state, action) => (
+  fromJS(state)
+    .setIn(['loggedIn'], action.isDeconnected)
+    .setIn(['token'], "")
+    .toJS()
+)
 const auth = (state = initialState, action) => {
   switch (action.type) {
     case actionsType.SET_LOGIN_SUCCESS:
@@ -30,6 +36,9 @@ const auth = (state = initialState, action) => {
       return isNotLogged(state)
     case actionsType.SET_LOGIN_ALREADY_LOGGED:
       return alreadyLogged(state)
+    case actionsType.SET_DECONNECTION:
+      localStorage.removeItem('Etherpe-token')
+      return isDeconnected(state)
     default:
       return state
   }
