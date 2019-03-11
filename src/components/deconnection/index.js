@@ -1,17 +1,18 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { Redirect } from 'react-router'
 import * as actions from './actions'
 
 class Deconnect extends Component {
   constructor(props) {
     super(props)
+    const { deco } = this.props
+    deco()
   }
 
   render() {
     return (
-      <div>
-      test
-      </div>
+      <Redirect to="/target" />
     )
   }
 }
