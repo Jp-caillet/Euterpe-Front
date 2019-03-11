@@ -5,10 +5,11 @@ import { connect } from 'react-redux'
 import Search from './components/search'
 import News from './components/news'
 import Details from './components/details'
+import Deconnect from './components/deconnection'
 import Connected from './components/header/connected.js'
 import Unconnected from './components/header/unconnected.js'
 import Footer from './components/footer'
-import Deco from './components/deconnection'
+
 import Upload from './components/upload_song'
 import Register from './components/register'
 import Login from './components/login'
@@ -22,12 +23,12 @@ class Routes extends Component {
         <div>
           <BrowserRouter>
             <div>
-              <Connected />
+              <Unconnected />
               <Switch>
                 <Route path="/" component={News} exact />
                 <Route path="/register" component={Register} exact />
                 <Route path="/login" component={Login} exact />
-                <Route path="/deconnection" component={Deco} exact />
+                <Route path="/deconnection" component={Deconnect} exact />
                 <Route path="/search" component={Search} exact />
                 <Route path="/upload" component={Upload} exact />
                 <Route path="/details/:id" component={Details} exact />
@@ -42,7 +43,7 @@ class Routes extends Component {
       <div>
         <BrowserRouter>
           <div>
-            <Unconnected />
+            <Connected />
             <Switch>
               <Route path="/" component={News} exact />
               <Route path="/register" component={Register} exact />

@@ -1,16 +1,25 @@
-import { Component } from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import * as actions from './actions'
 
 class Deconnect extends Component {
   constructor(props) {
     super(props)
-    this.Deconnection()
   }
 
-  Deconnection() {
-    const { deconnection } = this.props
-    deconnection()
+  render() {
+    return (
+      <div>
+      test
+      </div>
+    )
   }
 }
 
-export default connect(state => state)(Deconnect)
+function mapStateToProps(state) {
+  return {
+    auth: state.auth
+  }
+}
+
+export default connect(mapStateToProps, actions)(Deconnect)

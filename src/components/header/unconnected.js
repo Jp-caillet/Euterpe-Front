@@ -12,7 +12,7 @@ class unConnected extends Component {
               <Link className="nav-link" to="/Radio">Radio</Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/register">Déconnection</Link>
+              <Link className="nav-link" to="/deconnection">Déconnection</Link>
             </li>
           </ul>
         </div>

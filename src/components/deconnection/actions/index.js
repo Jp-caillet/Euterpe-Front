@@ -1,15 +1,18 @@
 import axios from 'axios'
 import actionsType from './actions-type'
 
-function setDeconnected(isDeconnected) {
+function setDeconnect(isDeconnected) {
   return {
-    type: actionsType.SET_DECONNECTED,
+    type: actionsType.SET_DECONNECTION,
     isDeconnected
   }
 }
 
-export function deconnection() {
+
+export function deco() {
+  
   return (dispatch) => {
-    dispatch(setDeconnected(true))
+    dispatch(setDeconnect(false))
+    
   }
 }
