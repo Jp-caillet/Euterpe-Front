@@ -24,7 +24,7 @@ module.exports = {
             {loader :'babel-loader'},
             {loader :'eslint-loader',
               options: {
-                failOnError: true,
+                failOnError: false,
               }
             }
           ]
@@ -47,6 +47,9 @@ module.exports = {
   output: {
     publicPath: '/'
   },
+  node: {
+  fs: 'empty'
+},
   plugins: [
     htmlWebpackPlugin,
     miniCssExtractPlugin

@@ -13,3 +13,26 @@ li{
 
 .imageEvent{
 }
+
+
+.progress {
+	margin-left : 20%;
+}
+
+#progressbar {
+	width: 60%;
+	margin-left: 10%;
+	margin-right: 20%;
+  background-color: black;
+  border-radius: 13px;
+  /* (height of inner div) / 2 + padding */
+  padding: 3px;
+}
+
+#progressbar>div {
+  background-color: orange;
+  
+  /* Adjust with JavaScript */
+  height: 10px;
+  border-radius: 10px;
+}

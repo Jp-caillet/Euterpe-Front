@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 
 import Search from './components/search'
 import News from './components/news'
+import Radio from './components/radio'
 import Details from './components/details'
 import Deconnect from './components/deconnection'
 import Connected from './components/header/connected.js'
@@ -28,6 +29,7 @@ class Routes extends Component {
                 <Route path="/" component={News} exact />
                 <Route path="/register" component={Register} exact />
                 <Route path="/login" component={Login} exact />
+                <Route path="/Radio" component={Radio} exact />
                 <Route path="/deconnection" component={Deconnect} exact />
                 <Route path="/search" component={Search} exact />
                 <Route path="/upload" component={Upload} exact />

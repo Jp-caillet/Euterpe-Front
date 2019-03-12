@@ -12,7 +12,7 @@ class Deconnect extends Component {
 
   render() {
     return (
-      <Redirect to="/target" />
+      <Redirect to="/" />
     )
   }
 }
