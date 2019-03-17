@@ -50,6 +50,7 @@ class Routes extends Component {
               <Route path="/" component={News} exact />
               <Route path="/register" component={Register} exact />
               <Route path="/login" component={Login} exact />
+              <Route path="/Radio" component={Radio} exact />
               <Route path="/search" component={Search} exact />
               <Route path="/upload" component={Upload} exact />
               <Route path="/details/:id" component={Details} exact />

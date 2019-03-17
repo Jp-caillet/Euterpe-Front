@@ -18,17 +18,47 @@ li{
 .progress {
 	margin-left : 20%;
 }
+.inputUrl{
+  width : 450px
+}
 
 #progressbar {
 	width: 60%;
-	margin-left: 10%;
-	margin-right: 20%;
+  margin-left: 2%;
+	margin-rigth: 10%;
+  display: inline-block;
   background-color: black;
   border-radius: 13px;
   /* (height of inner div) / 2 + padding */
   padding: 3px;
 }
-
+.timerblock{
+  display: inline-block;
+  width: 100%;
+  margin-bottom: 10px
+}
+.timer{
+  display: inline-block;
+  margin-left: 3%;
+  margin-right: 2%
+}
+.viewMore{
+  margin-left: 3%;
+  width: 5%;
+  border: none;
+  outline: none
+}
+.CircleSlider{
+display: inline-block;
+  margin-left: 2%;
+}
+.imgStyle{
+  margin-left: auto;
+      margin-bottom: 10px;
+      margin-right: auto;
+      margin-top: 10px;
+      display: block
+}
 #progressbar>div {
   background-color: orange;
   
@@ -56,4 +86,60 @@ li{
 }
 .volumecontrollerbar:hover{
     background-color:#bcbcbc !important;
+}
+
+.addImg{
+  width : 60px
+}
+.buttonAddImg{
+  border: none;
+  outline: none
+}
+
+/* Tooltip container */
+.tooltip {
+  position: relative;
+  display: inline-block;
+  opacity: 1;
+  border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+
+  /* Position the tooltip text */
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -60px;
+
+  /* Fade in tooltip */
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+/* Tooltip arrow */
+.tooltip .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
 }
