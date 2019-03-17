@@ -3,16 +3,13 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import Search from './components/search'
-import News from './components/news'
+import Radios from './components/radios'
 import Radio from './components/radio'
-import Details from './components/details'
 import Deconnect from './components/deconnection'
 import Connected from './components/header/connected.js'
 import Unconnected from './components/header/unconnected.js'
-import Footer from './components/footer'
-
-import Upload from './components/upload_song'
 import Register from './components/register'
+import CreateRadio from './components/CreateRadio'
 import Login from './components/login'
 
 class Routes extends Component {
@@ -26,16 +23,14 @@ class Routes extends Component {
             <div>
               <Unconnected />
               <Switch>
-                <Route path="/" component={News} exact />
+                <Route path="/" component={Radios} exact />
                 <Route path="/register" component={Register} exact />
+                <Route path="/newRadio" component={CreateRadio} exact />
                 <Route path="/login" component={Login} exact />
-                <Route path="/Radio" component={Radio} exact />
                 <Route path="/deconnection" component={Deconnect} exact />
                 <Route path="/search" component={Search} exact />
-                <Route path="/upload" component={Upload} exact />
-                <Route path="/details/:id" component={Details} exact />
+                <Route path="/radio/:id" component={Radio} exact />
               </Switch>
-              <Footer />
             </div>
           </BrowserRouter>
         </div>
@@ -47,15 +42,12 @@ class Routes extends Component {
           <div>
             <Connected />
             <Switch>
-              <Route path="/" component={News} exact />
+              <Route path="/" component={Radios} exact />
               <Route path="/register" component={Register} exact />
               <Route path="/login" component={Login} exact />
-              <Route path="/Radio" component={Radio} exact />
               <Route path="/search" component={Search} exact />
-              <Route path="/upload" component={Upload} exact />
-              <Route path="/details/:id" component={Details} exact />
+              <Route path="/radio/:id" component={Radio} exact />
             </Switch>
-            <Footer />
           </div>
         </BrowserRouter>
       </div>

@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux'
 
-import news from './components/news/reducer'
+import radios from './components/radios/reducer'
 import auth from './components/login/reducer'
 
 export default combineReducers({
-  news,
+  radios,
   auth
 })

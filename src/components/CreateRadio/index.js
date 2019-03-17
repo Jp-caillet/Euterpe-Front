@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 
-class create extends Component {
+class createRadio extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -26,7 +26,7 @@ class create extends Component {
     }) */
   }
 
-  async handleSubmit(event) {
+  handleSubmit(event) {
     const {
       nameRadio,
       url1,
@@ -34,27 +34,22 @@ class create extends Component {
       image
     } = this.state
     event.preventDefault()
-    const {history} = this.props
+    const { history } = this.props
     console.log(history)
-    
-     await axios.post('http://localhost:4000/radio/create', {
-        nameRadio,
-        image
-      })
-        .then((resp) => {
-          console.log(resp)
-        }).catch((error) => {
-          console.log(error.response)
-        })
-      await axios.post('http://localhost:4000/music/create', { nameRadio: nameRadio, url: url1 })
+
+    axios.post('http://localhost:4000/radio/create', {
+      nameRadio,
+      image,
+      url1,
+      url2
+    })
       .then((resp) => {
-        console.log(resp.data)
+        console.log(resp)
+      }).catch((error) => {
+        console.log(error.response)
       })
-      await axios.post('http://localhost:4000/music/create', { nameRadio: nameRadio, url: url2 })
-      .then((resp) => {
-        console.log(resp.data)
-      })
-    history.push('/Radio')
+
+    history.push('/')
   }
 
   render() {
@@ -131,7 +126,7 @@ class create extends Component {
                     <div className="control">
                       <input
                         className="input"
-                        type="password"
+                        type="text"
                         name="url2"
                         value={url2}
                         onChange={this.handleChange}
@@ -158,4 +153,4 @@ class create extends Component {
   }
 }
 
-export default create
+export default createRadio

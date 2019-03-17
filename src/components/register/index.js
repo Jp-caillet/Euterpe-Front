@@ -39,6 +39,7 @@ class Register extends Component {
       mdp,
       terms
     } = this.state
+    const { history } = this.props
     event.preventDefault()
 
     if (terms !== false) {
@@ -56,6 +57,7 @@ class Register extends Component {
           console.log(error.response)
         })
     }
+    history.push('/')
   }
 
   render() {

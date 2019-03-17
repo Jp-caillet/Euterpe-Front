@@ -55,7 +55,8 @@ class Radio extends Component {
   }
 
   onLoad() {
-    axios.post('http://localhost:4000/music/show', { radio: 'official_Radio' })
+    const { match } = this.props
+    axios.post('http://localhost:4000/music/show', { radio: match.params.id })
       .then((resp) => {
         console.log(resp)
         const { duration } = resp.data
@@ -76,7 +77,8 @@ class Radio extends Component {
   }
 
   onEnded() {
-    axios.post('http://localhost:4000/music/show', { radio: 'official_Radio' })
+    const { match } = this.props
+    axios.post('http://localhost:4000/music/show', { radio: match.params.id })
       .then((resp) => {
         console.log(resp)
         const { duration } = resp.data
@@ -124,8 +126,9 @@ class Radio extends Component {
 
   closeModal() {
     const { urlSend } = this.state
+    const { match } = this.props
 
-    axios.post('http://localhost:4000/music/create', { nameRadio: 'official_Radio', url: urlSend })
+    axios.post('http://localhost:4000/music/create', { nameRadio: match.params.id, url: urlSend })
       .then((resp) => {
         console.log(resp.data)
       })

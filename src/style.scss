@@ -143,3 +143,53 @@ display: inline-block;
   visibility: visible;
   opacity: 1;
 }
+
+
+
+/* Float four columns side by side */
+.column {
+  float: left;
+  width: 25%;
+  padding: 0 10px;
+}
+
+/* Remove extra left and right margins, due to padding */
+.row {
+margin: 0 -5px;
+margin-left: 20px;
+margin-right: 20px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Responsive columns */
+@media screen and (max-width: 600px) {
+  .column {
+    width: 100%;
+    display: block;
+    margin-bottom: 20px;
+  }
+}
+
+/* Style the counter cards */
+.card {
+  height: 90%;
+  width: 80%;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  text-align: center;
+  background-color: #f1f1f1;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+
+
+.radios-img{
+  width: 60%;
+  height: 80%
+}
