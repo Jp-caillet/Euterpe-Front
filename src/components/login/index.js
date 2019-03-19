@@ -23,6 +23,8 @@ class Login extends Component {
     const { email, mdp } = this.state
     const { login } = this.props
     login({ email, mdp })
+    const { history } = this.props
+    history.push('/')
   }
 
   render() {
@@ -31,65 +33,16 @@ class Login extends Component {
       mdp
     } = this.state
 
-    const { auth: { loggedIn } } = this.props
     return (
-      <div className="Register">
-        <header>
-          <div className="container">
-            <nav className="navbar">
-              <div className="navbar-brand">
-                <span className="navbar-item">Forms in React</span>
-              </div>
-            </nav>
-          </div>
-        </header>
+      <div>
         <div className="container">
-          <div className="columns">
-            <div className="column is-9">
-              <form className="form" onSubmit={this.handleSubmit}>
-
-                <div className="field">
-                  <label htmlFor="email" className="label">
-                    Email Address :
-                    <div className="control">
-                      <input
-                        className="input"
-                        type="text"
-                        name="email"
-                        value={email}
-                        onChange={this.handleChange}
-                      />
-                    </div>
-                  </label>
-                </div>
-
-                <div className="field">
-                  <label htmlFor="password" className="label">
-                    Password :
-                    <div className="control">
-                      <input
-                        className="input"
-                        type="password"
-                        name="mdp"
-                        value={mdp}
-                        onChange={this.handleChange}
-                      />
-                    </div>
-                  </label>
-                </div>
-                <div className="field">
-                  <div className="control">
-                    <input
-                      type="submit"
-                      value="Submit"
-                      className="button is-primary"
-                    />
-                  </div>
-                </div>
-              </form>
-              <p className="nav-link posts">{`${loggedIn}`}</p>
-            </div>
-          </div>
+          <form className="form" onSubmit={this.handleSubmit}>
+            <div className="header">Login</div>
+            <div className="info">*Click on the input boxes</div>
+            <input id="username" className="inc1 text" type="text" name="email" placeholder="Email" value={email} onChange={this.handleChange} />
+            <input id="password" className="inc1 pass" type="pass" name="mdp" placeholder="Password" value={mdp} onChange={this.handleChange} />
+            <button className="button-sign" type="submit">Login</button>
+          </form>
         </div>
       </div>
     )

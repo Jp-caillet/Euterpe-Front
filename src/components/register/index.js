@@ -36,27 +36,25 @@ class Register extends Component {
       gender,
       email,
       login,
-      mdp,
-      terms
+      mdp
     } = this.state
     const { history } = this.props
     event.preventDefault()
 
-    if (terms !== false) {
-      axios.post('http://localhost:4000/user/create', {
-        name,
-        age,
-        gender,
-        email,
-        login,
-        mdp
+    axios.post('http://localhost:4000/user/create', {
+      name,
+      age,
+      gender,
+      email,
+      login,
+      mdp
+    })
+      .then((resp) => {
+        console.log(resp)
+      }).catch((error) => {
+        console.log(error.response)
       })
-        .then((resp) => {
-          console.log(resp)
-        }).catch((error) => {
-          console.log(error.response)
-        })
-    }
+
     history.push('/')
   }
 
@@ -65,113 +63,21 @@ class Register extends Component {
       name,
       login,
       email,
-      mdp,
-      terms
+      mdp
     } = this.state
 
     return (
-      <div className="Register">
-        <header>
-          <div className="container">
-            <nav className="navbar">
-              <div className="navbar-brand">
-                <span className="navbar-item">Forms in React</span>
-              </div>
-            </nav>
-          </div>
-        </header>
+      <div>
         <div className="container">
-          <div className="columns">
-            <div className="column is-9">
-              <form className="form" onSubmit={this.handleSubmit}>
-                <div className="field">
-                  <label htmlFor="name" className="label">
-                  Name :
-                    <div className="control">
-                      <input
-                        className="input"
-                        type="text"
-                        name="name"
-                        value={name}
-                        onChange={this.handleChange}
-                      />
-                    </div>
-                  </label>
-                </div>
-
-                <div className="field">
-                  <label htmlFor="login" className="label">
-                  login :
-                    <div className="control">
-                      <input
-                        className="input"
-                        type="text"
-                        name="login"
-                        value={login}
-                        onChange={this.handleChange}
-                      />
-                    </div>
-                  </label>
-                </div>
-
-                <div className="field">
-                  <label htmlFor="email" className="label">
-                    Email Address :
-                    <div className="control">
-                      <input
-                        className="input"
-                        type="text"
-                        name="email"
-                        value={email}
-                        onChange={this.handleChange}
-                      />
-                    </div>
-                  </label>
-                </div>
-
-                <div className="field">
-                  <label htmlFor="password" className="label">
-                    Password :
-                    <div className="control">
-                      <input
-                        className="input"
-                        type="password"
-                        name="mdp"
-                        value={mdp}
-                        onChange={this.handleChange}
-                      />
-                    </div>
-                  </label>
-                </div>
-
-                <div className="field">
-                  <div className="control">
-                    <label htmlFor="checkbox" className="checkbox">
-                      <input
-                        name="terms"
-                        type="checkbox"
-                        checked={terms}
-                        onChange={this.handleChange}
-                      />
-                      I agree to the
-                      {' '}
-                      <a href="https://google.com">terms and conditions</a>
-                    </label>
-                  </div>
-                </div>
-
-                <div className="field">
-                  <div className="control">
-                    <input
-                      type="submit"
-                      value="Submit"
-                      className="button is-primary"
-                    />
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
+          <form className="form" onSubmit={this.handleSubmit}>
+            <div className="header">Register</div>
+            <div className="info">*Click on the input boxes</div>
+            <input id="username" className="inc1 text" type="text" name="name" placeholder="name" value={name} onChange={this.handleChange} />
+            <input id="username" className="inc2 pass" type="text" name="login" placeholder="login" value={login} onChange={this.handleChange} />
+            <input id="username" className="inc2 email-register" type="text" name="email" placeholder="email" value={email} onChange={this.handleChange} />
+            <input id="username" className="inc2 pass-register" type="text" name="mdp" placeholder="Password" value={mdp} onChange={this.handleChange} />
+            <button className="button-sign" type="submit">Register</button>
+          </form>
         </div>
       </div>
     )

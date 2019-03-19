@@ -8,11 +8,12 @@ function setLoginPending(isLoginPending) {
   }
 }
 
-function setLoginSuccess(isLoginSuccess, token) {
+function setLoginSuccess(isLoginSuccess, token, log) {
   return {
     type: actionsType.SET_LOGIN_SUCCESS,
     isLoginSuccess,
-    token
+    token,
+    log
   }
 }
 
@@ -30,9 +31,9 @@ export function login(email, password) {
     dispatch(setLoginPending(true))
     axios.post('http://localhost:4000/user/login', email)
       .then((resp) => {
-        console.log(resp)
+        console.log(resp.data)
         dispatch(setLoginPending(false))
-        dispatch(setLoginSuccess(true, resp.data.token))
+        dispatch(setLoginSuccess(true, resp.data.token, resp.data.login))
       }).catch((error) => {
         console.log(error)
         dispatch(setLoginPending(false))

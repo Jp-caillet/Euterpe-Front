@@ -15,7 +15,7 @@ class News extends Component {
     const { radios } = this.props
 
     return (
-      <div>
+      <div className="radios">
         <Results data={radios.data} />
       </div>
     )

@@ -2,12 +2,14 @@ const initialState = () => {
   if (localStorage.getItem('Etherpe-token')) {
     return {
       loggedIn: true,
-      token: localStorage.getItem('Etherpe-token')
+      token: localStorage.getItem('Etherpe-token'),
+      login: localStorage.getItem('Etherpe-login')
     }
   }
   return {
     loggedIn: false,
-    token: ''
+    token: '',
+    login: ''
   }
 }
 

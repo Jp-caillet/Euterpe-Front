@@ -1,27 +1,38 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
+
+import { getEventsData } from '../radios/actions'
+import Results from './components/index.js'
 
 class unConnected extends Component {
+  constructor(props) {
+    super(props)
+    getEventsData()
+  }
+
   render() {
+    const { radios } = this.props
     return (
-      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-        <Link className="navbar-brand" to="/">Euterpe</Link>
-        <div className="collapse navbar-collapse" id="navbarNav">
-          <ul className="navbar-nav">
-            <li className="nav-item">
-              <Link className="nav-link" to="/">Radio</Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/newRadio">créer une radio</Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/deconnection">Déconnection</Link>
-            </li>
-          </ul>
+      <div className="sidenav">
+        <div className="menu">
+          <Link className="navbar-brand" to="/">Euterpe</Link>
+          <div>
+            <div>
+              <Link to="/">Radio</Link>
+            </div>
+            <div>
+              <Link to="/newRadio">créer une radio</Link>
+            </div>
+            <div className="nav-link-jp">
+              <Link to="/deconnection">Déconnection</Link>
+            </div>
+          </div>
         </div>
-      </nav>
+        <Results data={radios.data} />
+      </div>
     )
   }
 }
 
-export default unConnected
+export default connect(state => state)(unConnected)

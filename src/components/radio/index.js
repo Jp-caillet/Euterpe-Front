@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import ReactPlayer from 'react-player'
 import { CircleSlider } from 'react-circle-slider'
-import { PlayerIcon } from 'react-player-controls'
 import { connect } from 'react-redux'
 import { Timer } from 'react-soundplayer/components'
 import Modal from 'react-modal'
 import axios from 'axios'
+import openSocket from 'socket.io-client'
 
 class Radio extends Component {
   constructor(props) {
@@ -21,7 +21,11 @@ class Radio extends Component {
       thumbnailUrl: '',
       timerCurrent: 0,
       modalIsOpen: false,
-      urlSend: ''
+      urlSend: '',
+      musiqueName: '',
+      like: false,
+      dislike: false,
+      id: ''
     }
 
     this.onDuration = this.onDuration.bind(this)
@@ -33,7 +37,17 @@ class Radio extends Component {
     this.openModal = this.openModal.bind(this)
     this.closeModal = this.closeModal.bind(this)
     this.handleInputChange = this.handleInputChange.bind(this)
+    this.like = this.like.bind(this)
+    this.dislike = this.dislike.bind(this)
+    this.chatAdd = this.chatAdd.bind(this)
     this.onLoad()
+    const socket = openSocket('http://localhost:4000')
+    socket.emit('message', 'yo')
+
+    socket.on('message', (message) => {
+      console.log('test')
+      console.log(message)
+    })
   }
 
   onDuration(duration) {
@@ -55,14 +69,17 @@ class Radio extends Component {
   }
 
   onLoad() {
-    const { match } = this.props
-    axios.post('http://localhost:4000/music/show', { radio: match.params.id })
+    const { match, auth } = this.props
+    axios.post('http://localhost:4000/music/show', { radio: match.params.id, token: auth.token })
       .then((resp) => {
-        console.log(resp)
+        console.log(resp.data)
         const { duration } = resp.data
         const { url } = resp.data
         const { thumbnailUrl } = resp.data
         const { started } = resp.data
+        const { like } = resp.data
+        const { dislike } = resp.data
+        const { id } = resp.data
         const toto = new Date(started)
         const date = new Date()
         const seconds = (date.getTime() / 1000) - (toto.getTime() / 1000)
@@ -71,20 +88,27 @@ class Radio extends Component {
         this.setState({ url })
         this.setState({ thumbnailUrl })
         this.setState({ timerCurrent })
+        this.setState({ like })
+        this.setState({ dislike })
+        this.setState({ id })
+        this.setState({ musiqueName: resp.data.title })
       }).catch((error) => {
         console.log(error)
       })
   }
 
   onEnded() {
-    const { match } = this.props
-    axios.post('http://localhost:4000/music/show', { radio: match.params.id })
+    const { match, auth } = this.props
+    axios.post('http://localhost:4000/music/show', { radio: match.params.id, token: auth.token })
       .then((resp) => {
-        console.log(resp)
+        console.log(resp.data)
         const { duration } = resp.data
         const { url } = resp.data
         const { thumbnailUrl } = resp.data
         const { started } = resp.data
+        const { like } = resp.data
+        const { dislike } = resp.data
+        const { id } = resp.data
         const toto = new Date(started)
         const date = new Date()
         const seconds = (date.getTime() / 1000) - (toto.getTime() / 1000)
@@ -93,6 +117,10 @@ class Radio extends Component {
         this.setState({ url })
         this.setState({ thumbnailUrl })
         this.setState({ timerCurrent })
+        this.setState({ like })
+        this.setState({ dislike })
+        this.setState({ id })
+        this.setState({ musiqueName: resp.data.title })
       }).catch((error) => {
         console.log(error)
       })
@@ -139,6 +167,44 @@ class Radio extends Component {
     this.setState({ [event.target.name]: event.target.value })
   }
 
+  like() {
+    const { like, id, dislike } = this.state
+    const { auth: { loggedIn, token } } = this.props
+    if (loggedIn) {
+      if (like) {
+        this.setState({ like: false })
+      } else {
+        this.setState({ like: true })
+      }
+      this.setState({ dislike: false })
+      axios.post('http://localhost:4000/music/like', { musicId: id, token })
+      if (dislike) {
+        axios.post('http://localhost:4000/music/dislike', { musicId: id, token })
+      }
+    }
+  }
+
+  dislike() {
+    const { like, id, dislike } = this.state
+    const { auth: { loggedIn, token } } = this.props
+    if (loggedIn) {
+      if (dislike) {
+        this.setState({ dislike: false })
+      } else {
+        this.setState({ dislike: true })
+      }
+      this.setState({ like: false })
+      axios.post('http://localhost:4000/music/dislike', { musicId: id, token })
+      if (like) {
+        axios.post('http://localhost:4000/music/like', { musicId: id, token })
+      }
+    }
+  }
+
+  chatAdd() {
+
+  }
+
   render() {
     const {
       secondsElapsed,
@@ -150,7 +216,10 @@ class Radio extends Component {
       thumbnailUrl,
       timerCurrent,
       modalIsOpen,
-      urlSend
+      urlSend,
+      musiqueName,
+      like,
+      dislike
     } = this.state
     const divStyle = {
       width: `${pourcent}%`
@@ -166,19 +235,32 @@ class Radio extends Component {
         transform: 'translate(-50%, -50%)'
       }
     }
-    const { auth: { loggedIn } } = this.props
+    let buttonLike
+
+    if (like) {
+      buttonLike = <img className="addImg" src="../src/img/like-done.png" alt="Logo" />
+    } else {
+      buttonLike = <img className="addImg" src="../src/img/like.png" alt="Logo" />
+    }
+    let buttonDislike
+    if (dislike) {
+      buttonDislike = <img className="addImg" src="../src/img/dislike-done.png" alt="Logo" />
+    } else {
+      buttonDislike = <img className="addImg" src="../src/img/dislike.png" alt="Logo" />
+    }
+    const { auth: { loggedIn }, match } = this.props
     let addSongPermiss
     if (loggedIn) {
       addSongPermiss = (
-        <button style={{ outline: 'none' }} className="buttonAddImg" type="button" onClick={this.openModal}>
-          <img className="addImg" src="../src/img/add.png" alt="test" />
+        <button style={{ outline: 'none', backgroundColor: 'Transparent' }} className="buttonAddImg" type="button" onClick={this.openModal}>
+          <img className="addImg" src="../src/img/cross-white.png" alt="test" />
         </button>
       )
     } else {
       addSongPermiss = (
-        <button style={{ outline: 'none' }} className="buttonAddImg" type="button">
+        <button style={{ outline: 'none', backgroundColor: 'Transparent' }} className="buttonAddImg" type="button">
           <div className="tooltip">
-            <img className="addImg" src="../src/img/add.png" alt="test" />
+            <img className="addImg" src="../src/img/cross-white.png" alt="test" />
             <span className="tooltiptext">veuillez vous connecter</span>
           </div>
         </button>
@@ -186,50 +268,120 @@ class Radio extends Component {
     }
     let iconVolume
     if (value !== 0) {
-      iconVolume = <PlayerIcon.SoundOn width={32} height={32} style={{ marginRight: 15 }} />
+      iconVolume = <img src="../src/img/unmute.png" alt="Logo" />
     } else {
-      iconVolume = <PlayerIcon.SoundOff width={32} height={32} style={{ marginRight: 15 }} />
+      iconVolume = <img src="../src/img/mute.png" alt="Logo" />
     }
     const createUrl = `${url}&t=${timerCurrent}s`
     return (
-      <div>
-        <div style={{ width: '100%' }}>
-          <img className="imgStyle" src={thumbnailUrl} alt="Logo" />
+      <div style={{
+        backgroundImage: 'radial-gradient(circle at top left,#524333, black)',
+        'margin-left': '150px', /* Same as the width of the sidenav */
+        'font-size': '28px', /* Increased text to enable scrolling */
+        padding: '0px 10px',
+        height: '91%',
+        position: 'fixed',
+        width: '100%'
+      }}
+      >
+        <div id="gauche">
+          <img className="imageEvent" src={thumbnailUrl} alt="Logo" />
+          <div className="title">{musiqueName}</div>
+          <div className="radioName">
+            { `( ${match.params.id} )` }
+          </div>
+          <div className="radioName">
+            <button
+              style={{ outline: 'none', backgroundColor: 'Transparent', 'margin-right': '10px' }}
+              className="buttonAddImg"
+              type="button"
+              onClick={this.like}
+            >
+              { buttonLike }
+            </button>
+            <button
+              style={{ outline: 'none', backgroundColor: 'Transparent' }}
+              className="buttonAddImg"
+              type="button"
+              onClick={this.dislike}
+            >
+              { buttonDislike }
+            </button>
+          </div>
         </div>
-        <br />
-        <ReactPlayer
-          className="react-player"
-          url={createUrl}
-          volume={volumesong}
-          onDuration={this.onDuration}
-          onProgress={this.onProgress}
-          onEnded={this.onEnded}
-          playing
-          hidden
-        />
-        <div className="timerblock">
-          <button type="button" className="viewMore" style={{ outline: 'none' }} onClick={this.onChange}>{iconVolume}</button>
-          <div className="CircleSlider">
-            <CircleSlider
-              className="CircleSlider"
-              circleWidth={5}
-              knobRadius={10}
-              size={80}
-              value={value}
-              progressWidth={5}
-              showPercentage={true}
-              showTooltip={true}
-              tooltipSize={14}
-              onChange={this.handleChange}
+
+        <div id="droite">
+          <div className="chatBox">
+            <div className="chatscrool">
+              <div className="chat dark">
+
+                <p>Hello. How are you today?</p>
+                <span className="time-left">11:00</span>
+              </div>
+
+              <div className="chat dark">
+                <p>Sweet! So, what do you wanna do today?</p>
+                <span className="time-left">11:02</span>
+              </div>
+
+              <div className="chat dark">
+                <p>Nah, I dunno. Play soccer.. or learn more coding perhaps?</p>
+                <span className="time-left">11:05</span>
+              </div>
+            </div>
+            <div>
+              <input className="inputChat" type="text" name="lastname" placeholder="Your message.." />
+              <button
+                style={{ outline: 'none', backgroundColor: 'Transparent', 'margin-left': '75%' }}
+                className="buttonAddImg"
+                type="button"
+                onClick={this.chatAdd}
+              >
+                <img className="buttonSend" src="../src/img/send.png" alt="Logo" />
+              </button>
+
+            </div>
+          </div>
+
+        </div>
+
+        <div className="footer">
+          <div className="center-footer">
+            <ReactPlayer
+              className="react-player"
+              url={createUrl}
+              volume={volumesong}
+              onDuration={this.onDuration}
+              onProgress={this.onProgress}
+              onEnded={this.onEnded}
+              playing
+              hidden
             />
+            <div className="timerblock">
+              <button type="button" className="viewMore" style={{ outline: 'none', marginLeft: '7%' }} onClick={this.onChange}>{iconVolume}</button>
+              <div className="CircleSlider">
+                <CircleSlider
+                  className="CircleSlider"
+                  circleWidth={5}
+                  knobRadius={10}
+                  size={80}
+                  value={value}
+                  progressWidth={5}
+                  showPercentage={true}
+                  showTooltip={true}
+                  tooltipSize={14}
+                  onChange={this.handleChange}
+                />
+              </div>
+              <div id="progressbar">
+                <div style={divStyle} />
+              </div>
+              <Timer className="timer" duration={duration} currentTime={secondsElapsed} />
+              {addSongPermiss}
+            </div>
           </div>
-          <div id="progressbar">
-            <div style={divStyle} />
-          </div>
-          <Timer className="timer" duration={duration} currentTime={secondsElapsed} />
-          {addSongPermiss}
         </div>
-        <br />
+
         <div>
 
           <Modal

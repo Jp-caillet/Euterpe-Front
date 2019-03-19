@@ -35,7 +35,6 @@ class createRadio extends Component {
     } = this.state
     event.preventDefault()
     const { history } = this.props
-    console.log(history)
 
     axios.post('http://localhost:4000/radio/create', {
       nameRadio,
@@ -61,92 +60,16 @@ class createRadio extends Component {
     } = this.state
 
     return (
-      <div className="Register">
-        <header>
-          <div className="container">
-            <nav className="navbar">
-              <div className="navbar-brand">
-                <span className="navbar-item">Forms in React</span>
-              </div>
-            </nav>
-          </div>
-        </header>
+      <div>
         <div className="container">
-          <div className="columns">
-            <div className="column is-9">
-              <form className="form" onSubmit={this.handleSubmit}>
-                <div className="field">
-                  <label htmlFor="nameRadio" className="label">
-                  Nom de la radio :
-                    <div className="control">
-                      <input
-                        className="input"
-                        type="text"
-                        name="nameRadio"
-                        value={nameRadio}
-                        onChange={this.handleChange}
-                      />
-                    </div>
-                  </label>
-                </div>
-
-                <div className="field">
-                  <label htmlFor="image" className="label">
-                  image de la radio :
-                    <div className="control">
-                      <input
-                        className="input"
-                        type="text"
-                        name="image"
-                        value={image}
-                        onChange={this.handleChange}
-                      />
-                    </div>
-                  </label>
-                </div>
-                <p> la radio pour etre crée doit contenir 2 vidéo youtube </p>
-                <div className="field">
-                  <label htmlFor="url1" className="label">
-                    musique n°1 (lien youtube) :
-                    <div className="control">
-                      <input
-                        className="input"
-                        type="text"
-                        name="url1"
-                        value={url1}
-                        onChange={this.handleChange}
-                      />
-                    </div>
-                  </label>
-                </div>
-
-                <div className="field">
-                  <label htmlFor="url2" className="label">
-                    musique n°2 (lien youtube) :
-                    <div className="control">
-                      <input
-                        className="input"
-                        type="text"
-                        name="url2"
-                        value={url2}
-                        onChange={this.handleChange}
-                      />
-                    </div>
-                  </label>
-                </div>
-
-                <div className="field">
-                  <div className="control">
-                    <input
-                      type="submit"
-                      value="Submit"
-                      className="button is-primary"
-                    />
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
+          <form className="form" onSubmit={this.handleSubmit}>
+            <div className="header-add-rad">creer une radio</div>
+            <input id="username" className="inc1 text" type="text" name="nameRadio" placeholder="nom de la radio" value={nameRadio} onChange={this.handleChange} />
+            <input id="username" className="inc2 pass" type="text" name="image" placeholder="image de la radio (lien)" value={image} onChange={this.handleChange} />
+            <input id="username" className="inc2 email-register" type="text" name="url1" placeholder="musique n°1 (lien youtube)" value={url1} onChange={this.handleChange} />
+            <input id="username" className="inc2 pass-register" type="text" name="url2" placeholder="musique n°2 (lien youtube)" value={url2} onChange={this.handleChange} />
+            <button className="button-sign" type="submit">Ajouter</button>
+          </form>
         </div>
       </div>
     )
