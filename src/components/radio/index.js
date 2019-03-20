@@ -25,8 +25,11 @@ class Radio extends Component {
       musiqueName: '',
       like: false,
       dislike: false,
-      id: ''
+      id: '',
+      messages: [],
+      messageInput: ''
     }
+    this.socket = openSocket('http://localhost:4000')
 
     this.onDuration = this.onDuration.bind(this)
     this.onProgress = this.onProgress.bind(this)
@@ -41,12 +44,30 @@ class Radio extends Component {
     this.dislike = this.dislike.bind(this)
     this.chatAdd = this.chatAdd.bind(this)
     this.onLoad()
-    const socket = openSocket('http://localhost:4000')
-    socket.emit('message', 'yo')
+  }
 
-    socket.on('message', (message) => {
-      console.log('test')
-      console.log(message)
+  componentDidUpdate() {
+    const { messages } = this.state
+    const { match } = this.props
+    this.socket.on(match.params.id, (message) => {
+      const returnValue = messages
+      returnValue.push(
+        <div className="chat dark">
+          <p>
+            {message.user}
+            {' '}
+:
+            {' '}
+            {message.mess}
+          </p>
+          <span className="time-left">
+            {message.heure}
+:
+            {message.minute}
+          </span>
+        </div>
+      )
+      this.setState({ messages: returnValue })
     })
   }
 
@@ -72,7 +93,6 @@ class Radio extends Component {
     const { match, auth } = this.props
     axios.post('http://localhost:4000/music/show', { radio: match.params.id, token: auth.token })
       .then((resp) => {
-        console.log(resp.data)
         const { duration } = resp.data
         const { url } = resp.data
         const { thumbnailUrl } = resp.data
@@ -101,7 +121,6 @@ class Radio extends Component {
     const { match, auth } = this.props
     axios.post('http://localhost:4000/music/show', { radio: match.params.id, token: auth.token })
       .then((resp) => {
-        console.log(resp.data)
         const { duration } = resp.data
         const { url } = resp.data
         const { thumbnailUrl } = resp.data
@@ -202,7 +221,10 @@ class Radio extends Component {
   }
 
   chatAdd() {
-
+    const { messageInput } = this.state
+    const { auth, match } = this.props
+    const messagetosend = `${match.params.id}&/${auth.login}&/${messageInput}`
+    this.socket.emit('message', messagetosend)
   }
 
   render() {
@@ -219,7 +241,9 @@ class Radio extends Component {
       urlSend,
       musiqueName,
       like,
-      dislike
+      dislike,
+      messages,
+      messageInput
     } = this.state
     const divStyle = {
       width: `${pourcent}%`
@@ -276,8 +300,8 @@ class Radio extends Component {
     return (
       <div style={{
         backgroundImage: 'radial-gradient(circle at top left,#524333, black)',
-        'margin-left': '150px', /* Same as the width of the sidenav */
-        'font-size': '28px', /* Increased text to enable scrolling */
+        marginLeft: '150px', /* Same as the width of the sidenav */
+        fontSize: '28px', /* Increased text to enable scrolling */
         padding: '0px 10px',
         height: '91%',
         position: 'fixed',
@@ -292,7 +316,7 @@ class Radio extends Component {
           </div>
           <div className="radioName">
             <button
-              style={{ outline: 'none', backgroundColor: 'Transparent', 'margin-right': '10px' }}
+              style={{ outline: 'none', backgroundColor: 'Transparent', marginRight: '10px' }}
               className="buttonAddImg"
               type="button"
               onClick={this.like}
@@ -313,33 +337,29 @@ class Radio extends Component {
         <div id="droite">
           <div className="chatBox">
             <div className="chatscrool">
-              <div className="chat dark">
+              { messages.map(item => (
+                <div key={item}>
+                  { item }
+                </div>
 
-                <p>Hello. How are you today?</p>
-                <span className="time-left">11:00</span>
-              </div>
-
-              <div className="chat dark">
-                <p>Sweet! So, what do you wanna do today?</p>
-                <span className="time-left">11:02</span>
-              </div>
-
-              <div className="chat dark">
-                <p>Nah, I dunno. Play soccer.. or learn more coding perhaps?</p>
-                <span className="time-left">11:05</span>
-              </div>
+              ))}
             </div>
             <div>
-              <input className="inputChat" type="text" name="lastname" placeholder="Your message.." />
+              <input
+                className="inputChat"
+                type="text"
+                placeholder="Your message.."
+                name="messageInput"
+                value={messageInput}
+                onChange={this.handleInputChange}
+              />
               <button
-                style={{ outline: 'none', backgroundColor: 'Transparent', 'margin-left': '75%' }}
+                style={{ outline: 'none', backgroundColor: 'Transparent', marginLeft: '75%' }}
                 className="buttonAddImg"
-                type="button"
-                onClick={this.chatAdd}
+                type="submit"
               >
-                <img className="buttonSend" src="../src/img/send.png" alt="Logo" />
+                <img className="buttonSend" src="../src/img/send.png" alt="Logo" onClick={this.chatAdd} />
               </button>
-
             </div>
           </div>
 
